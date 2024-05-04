@@ -10,7 +10,7 @@
         public decimal Price { get; set; }
         public string Picture { get; set; }
         public DateTime CreatedDate { get; set; }
-        public FeatureDto FeatureDto { get; set; }
-        public CategoryDto CategoryDto { get; set; }
+        public FeatureDto Feature { get; set; }
+        public CategoryDto Category { get; set; }
     }
 }
