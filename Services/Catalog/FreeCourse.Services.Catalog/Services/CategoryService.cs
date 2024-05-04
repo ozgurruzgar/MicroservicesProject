@@ -14,7 +14,7 @@ namespace FreeCourse.Services.Catalog.Services
 
         public CategoryService(IMapper mapper, IDatabaseSettings databaseSettings)
         {
-            var client = new MongoClient(databaseSettings.CoonnectionString);
+            var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
 
             _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
@@ -34,11 +34,12 @@ namespace FreeCourse.Services.Catalog.Services
             if (category == null)
                 return Response<CategoryDto>.Fail("CategoryNotFound", 404);
 
-            return Response<CategoryDto>.Fail("CategoryNotFound", 404);
+            return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
 
-        public async Task<Response<CategoryDto>> CreateAsync(Category category)
+        public async Task<Response<CategoryDto>> CreateAsync(CategoryDto categoryDto)
         {
+            var category = _mapper.Map<Category>(categoryDto);
             await _categoryCollection.InsertOneAsync(category);
             return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }

@@ -15,7 +15,7 @@ namespace FreeCourse.Services.Catalog.Services
 
         public CourseService(IMapper mapper, IDatabaseSettings databaseSettings)
         {
-            var client = new MongoClient(databaseSettings.CoonnectionString);
+            var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
 
             _courseCollection = database.GetCollection<Course>(databaseSettings.CourseCollectionName);
