@@ -22,6 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeCourse.IdentityServer", "IdentityServer\FreeCourse.IdentityServer\FreeCourse.IdentityServer.csproj", "{FCFFE2B5-096C-43FF-9D90-E3133003DBFC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PhotoStock", "PhotoStock", "{958F3BC9-8BFD-46D9-A7B5-944DBE6BD50A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCourse.Services.PhotoStock", "Services\PhotoStock\FreeCourse.Services.PhotoStock\FreeCourse.Services.PhotoStock.csproj", "{092F51C4-6470-4049-B092-F331B6C6B9B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,10 @@ Global
 		{FCFFE2B5-096C-43FF-9D90-E3133003DBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCFFE2B5-096C-43FF-9D90-E3133003DBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCFFE2B5-096C-43FF-9D90-E3133003DBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,8 @@ Global
 		{216C7135-4C37-4921-87F0-6E908A2F251D} = {B01E809A-DDF8-465F-9707-E59981232591}
 		{4A886B16-50FD-4EC5-941D-8912FD70418F} = {5279CA61-193A-4503-823C-126E4721B452}
 		{FCFFE2B5-096C-43FF-9D90-E3133003DBFC} = {7FA0DBBD-3CF9-4161-93EC-FFA8D3C27181}
+		{958F3BC9-8BFD-46D9-A7B5-944DBE6BD50A} = {23EAFDB2-B6CE-4B02-BA61-0652D8BC4839}
+		{092F51C4-6470-4049-B092-F331B6C6B9B0} = {958F3BC9-8BFD-46D9-A7B5-944DBE6BD50A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8428A3B2-CDF2-4A4C-97E5-F16D73444068}
