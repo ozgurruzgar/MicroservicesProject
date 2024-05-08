@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PhotoStock", "PhotoStock", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCourse.Services.PhotoStock", "Services\PhotoStock\FreeCourse.Services.PhotoStock\FreeCourse.Services.PhotoStock.csproj", "{092F51C4-6470-4049-B092-F331B6C6B9B0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{D9F44860-AB43-4490-AC2E-395F19659C7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCourse.Services.Basket", "Services\Basket\FreeCourse.Services.Basket\FreeCourse.Services.Basket.csproj", "{6FC08281-E69D-4B1F-BC2C-A5EB9EB345EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,10 @@ Global
 		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092F51C4-6470-4049-B092-F331B6C6B9B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FC08281-E69D-4B1F-BC2C-A5EB9EB345EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FC08281-E69D-4B1F-BC2C-A5EB9EB345EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FC08281-E69D-4B1F-BC2C-A5EB9EB345EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FC08281-E69D-4B1F-BC2C-A5EB9EB345EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +67,8 @@ Global
 		{FCFFE2B5-096C-43FF-9D90-E3133003DBFC} = {7FA0DBBD-3CF9-4161-93EC-FFA8D3C27181}
 		{958F3BC9-8BFD-46D9-A7B5-944DBE6BD50A} = {23EAFDB2-B6CE-4B02-BA61-0652D8BC4839}
 		{092F51C4-6470-4049-B092-F331B6C6B9B0} = {958F3BC9-8BFD-46D9-A7B5-944DBE6BD50A}
+		{D9F44860-AB43-4490-AC2E-395F19659C7F} = {23EAFDB2-B6CE-4B02-BA61-0652D8BC4839}
+		{6FC08281-E69D-4B1F-BC2C-A5EB9EB345EB} = {D9F44860-AB43-4490-AC2E-395F19659C7F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8428A3B2-CDF2-4A4C-97E5-F16D73444068}
