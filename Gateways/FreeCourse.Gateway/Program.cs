@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -11,6 +12,14 @@ builder.Host.ConfigureAppConfiguration((hostingContext, config) =>
     .AddJsonFile($"configuration.{builder.Environment.EnvironmentName}.json")
     .AddEnvironmentVariables();
 });
+
+builder.Services.AddAuthentication()
+    .AddJwtBearer("GatewayAuthenticationScheme", options =>
+    {
+        options.Authority = builder.Configuration["IdentityServerUrl"];
+        options.Audience = "resource_gateway";
+        options.RequireHttpsMetadata = false;
+    });
 
 builder.Services.AddOcelot();
 
