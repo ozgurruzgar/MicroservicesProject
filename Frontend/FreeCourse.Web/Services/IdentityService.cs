@@ -2,7 +2,14 @@
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Services.Interfaces;
 using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System;
+using System.Globalization;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace FreeCourse.Web.Services
 {
@@ -39,7 +46,7 @@ namespace FreeCourse.Web.Services
                 Policy = new DiscoveryPolicy { RequireHttps = false }
             });
 
-            if (!discovery.IsError)
+            if (discovery.IsError)
                 throw discovery.Exception;
             else
             {
@@ -53,8 +60,42 @@ namespace FreeCourse.Web.Services
                 };
 
                 var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
-                //if (!token.IsError)
+                if (token.IsError)
+                {
+                    var responseContent = await token.HttpResponse.Content.ReadAsStringAsync();
 
+                    var errorDto = JsonSerializer.Deserialize<ErrorDto>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+
+                    return Response<bool>.Fail(errorDto.Errors, 400);
+                }
+
+                var userInfoRequestToken = new UserInfoRequest
+                {
+                    Token = token.AccessToken,
+                    Address = discovery.UserInfoEndpoint
+                };
+
+                var userInfo = await _httpClient.GetUserInfoAsync(userInfoRequestToken);
+                if (userInfo.IsError)
+                    throw userInfo.Exception;
+
+                var claimsIdentity = new ClaimsIdentity(userInfo.Claims, CookieAuthenticationDefaults.AuthenticationScheme, "name", "role");
+
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                var authenticationProperties = new AuthenticationProperties();
+                authenticationProperties.StoreTokens(new List<AuthenticationToken>()
+                {
+                    new AuthenticationToken { Name = OpenIdConnectParameterNames.AccessToken, Value = token.AccessToken},
+                    new AuthenticationToken { Name = OpenIdConnectParameterNames.RefreshToken, Value = token.RefreshToken},
+                    new AuthenticationToken { Name = OpenIdConnectParameterNames.ExpiresIn, Value = DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o",CultureInfo.InvariantCulture)},
+                });
+
+                authenticationProperties.IsPersistent = input.IsRemember;
+
+                await _contextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
+
+                return Response<bool>.Success(200);
             }
         }
     }
