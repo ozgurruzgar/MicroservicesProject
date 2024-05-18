@@ -28,7 +28,7 @@ namespace FreeCourse.Shared.Dtos
             {
                 Errors = errors,
                 StatusCode = statusCode,
-                IsSuccessful = true
+                IsSuccessful = false
             };
         }
 
