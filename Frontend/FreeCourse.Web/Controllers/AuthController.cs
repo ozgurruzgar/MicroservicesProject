@@ -24,18 +24,18 @@ namespace FreeCourse.Web.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var response =  await _service.SignIn(signInInput);
+            var response = await _service.SignIn(signInInput);
             if (!response.IsSuccessful)
             {
                 response.Errors.ForEach(x =>
                 {
                     ModelState.AddModelError(string.Empty, x);
                 });
+
+                return View();
             }
 
-                return RedirectToAction(nameof(Index), "Home");
-
-            return View();
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }
