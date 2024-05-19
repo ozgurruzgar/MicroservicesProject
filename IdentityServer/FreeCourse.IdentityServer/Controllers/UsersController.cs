@@ -46,14 +46,13 @@ namespace FreeCourse.IdentityServer.Controllers
             var userClaim = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub);
             if (userClaim == null)
                 return BadRequest();
-            else
-            {
-                var user = await _userManager.FindByIdAsync(userClaim.Value);
-                if (user == null)
-                    return BadRequest();
 
-                return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email, City = user.City });
-            }
+            var user = await _userManager.FindByIdAsync(userClaim.Value);
+            if (user == null)
+                return BadRequest();
+
+            return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email, City = user.City });
+
         }
     }
 }
