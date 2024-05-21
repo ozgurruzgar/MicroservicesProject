@@ -1,9 +1,15 @@
-﻿namespace FreeCourse.Web.Services.Interfaces
+﻿namespace FreeCourse.Web.Services
 {
     public class ServiceApiSettings
     {
         public string IdentityBaseUrl { get; set; }
         public string GatewayBaseUrl { get; set; }
         public string PhotoStockUrl { get; set; }
+        public ServiceApi Catalog { get; set; }
+    }
+
+    public class ServiceApi
+    {
+        public string Path { get; set; }
     }
 }
