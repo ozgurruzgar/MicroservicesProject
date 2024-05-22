@@ -22,9 +22,13 @@ builder.Services.AddHttpClient<IUserService, UserService>(opt =>
 builder.Services.AddHttpClient<ICatalogService, CatalogService>(opt =>
 {
     opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUrl}/{serviceApiSettings.Catalog.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+}).AddHttpMessageHandler<ClientCredentialsTokenHandler>();
+builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
+
+builder.Services.AddAccessTokenManagement();
 
 builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+builder.Services.AddScoped<ClientCredentialsTokenHandler>();
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
