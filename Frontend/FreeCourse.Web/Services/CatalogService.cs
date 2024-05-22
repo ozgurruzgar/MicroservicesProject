@@ -14,7 +14,7 @@ namespace FreeCourse.Web.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> Createsync(CourseCreateInput courseCreateInput)
+        public async Task<bool> CreateAsync(CourseCreateInput courseCreateInput)
         {
             var response = await _httpClient.PostAsJsonAsync<CourseCreateInput>("courses/create",courseCreateInput);
             return response.IsSuccessStatusCode;
