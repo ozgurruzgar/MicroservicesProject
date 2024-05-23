@@ -19,7 +19,7 @@
                         <thead>
                             <tr>
                                 <th>Resim</th>
-                                <th>Kurs sim</th>
+                                <th>Kurs isim</th>
                                 <th>Fiyat</th>
                                 <th>Süre</th>
                             </tr>
@@ -28,6 +28,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td></td>
                                     <td>@item.Name</td>
                                     <td>@item.Price</td>
                                     <td>@item.Feature.Duration</td>
