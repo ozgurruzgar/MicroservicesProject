@@ -52,21 +52,32 @@ namespace FreeCourse.Web.Controllers
             if (course == null)
                 RedirectToAction(nameof(Index));
 
-            ViewBag.categoryList = new SelectList(categories, "Id", "Name",course.Id);
-            if (course != null)
+            ViewBag.categoryList = new SelectList(categories, "Id", "Name", course.Id);
+            CourseUpdateInput courseUpdateInput = new()
             {
-                CourseUpdateInput courseUpdateInput = new()
-                {
-                    Id = course.Id,
-                    Name = course.Name,
-                    Description = course.Description,
-                    Price = course.Price,
-                    Feature = course.Feature,
-                    CategoryId = course.CategoryId,
-                    UserId = course.UserId,
-                    Picture = course.Picture,
-                };
-            }
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                Price = course.Price,
+                Feature = course.Feature,
+                CategoryId = course.CategoryId,
+                UserId = course.UserId,
+                Picture = course.Picture,
+            };
+
+            return View(courseUpdateInput);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CourseUpdateInput courseUpdateInput)
+        {
+            var categories = await _catalogService.GetAllCategoryAsync();
+            ViewBag.categoryList = new SelectList(categories, "Id", "Name", courseUpdateInput.Id);
+            if (!ModelState.IsValid)
+                return View();
+
+            await _catalogService.UpdateAsync(courseUpdateInput);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
