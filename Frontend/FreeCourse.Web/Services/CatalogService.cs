@@ -1,4 +1,5 @@
 ﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Web.Helpers;
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Models.Catalog;
 using FreeCourse.Web.Services.Interfaces;
@@ -8,19 +9,27 @@ namespace FreeCourse.Web.Services
     public class CatalogService : ICatalogService
     {
         private readonly HttpClient _httpClient;
+        private readonly IPhotoStockService _photoStockService;
+        private readonly PhotoHelper _photoHelper;
 
-        public CatalogService(HttpClient httpClient)
+        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService, PhotoHelper photoHelper)
         {
             _httpClient = httpClient;
+            _photoStockService = photoStockService;
+            _photoHelper = photoHelper;
         }
 
         public async Task<bool> CreateAsync(CourseCreateInput courseCreateInput)
         {
-            var response = await _httpClient.PostAsJsonAsync<CourseCreateInput>("courses/create",courseCreateInput);
+            var resultPhotoService = await _photoStockService.UploadPhoto(courseCreateInput.PhotoFormFile);
+            if (resultPhotoService != null)
+                courseCreateInput.Picture = resultPhotoService.Url;
+
+            var response = await _httpClient.PostAsJsonAsync("courses/create",courseCreateInput);
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> DeleteAsync(int courseId)
+        public async Task<bool> DeleteAsync(string courseId)
         {
             var response = await _httpClient.PutAsync($"courses/delete/{courseId}", null);
             return response.IsSuccessStatusCode;
@@ -53,6 +62,12 @@ namespace FreeCourse.Web.Services
                 return null;
 
             var responseSuccessful = await response.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
+
+            //responseSuccessful.Data.ForEach(x =>
+            //{
+
+            //})
+
             return responseSuccessful.Data;
         }
 

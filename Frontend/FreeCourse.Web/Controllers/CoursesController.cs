@@ -79,5 +79,11 @@ namespace FreeCourse.Web.Controllers
             await _catalogService.UpdateAsync(courseUpdateInput);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _catalogService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
