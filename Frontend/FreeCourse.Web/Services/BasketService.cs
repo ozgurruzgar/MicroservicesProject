@@ -7,24 +7,31 @@ namespace FreeCourse.Web.Services
     public class BasketService : IBasketService
     {
         private readonly HttpClient _httpClient;
+        private readonly IDiscountService _discountService;
 
+        public BasketService(HttpClient httpClient, IDiscountService discountService)
+        {
+            _httpClient = httpClient;
+            _discountService = discountService;
+        }
 
         public async Task AddBasketItem(BasketItemViewModel basketItemViewModel)
         {
             var basket = await Get();
             if (basket != null)
             {
-                if (basket.BasketItems.Any(x => x.CourseId == basketItemViewModel.CourseId))
+                if (!basket.BasketItems.Any(x => x.CourseId == basketItemViewModel.CourseId))
                 {
                     basket.BasketItems.Add(basketItemViewModel);
                 }
             }
             else
             {
-                basket = new BasketViewModel();
-                basket.BasketItems.Add(basketItemViewModel);
+                basket = new BasketViewModel
+                {
+                    BasketItems = new List<BasketItemViewModel> { basketItemViewModel }
+                };
             }
-
             await SaveOrUpdate(basket);
         }
 
@@ -33,9 +40,15 @@ namespace FreeCourse.Web.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> CancelApplyDiscount()
+        public async Task<bool> CancelApplyDiscount()
         {
-            throw new NotImplementedException();
+            var basket = await Get();
+            if (basket == null && basket.DiscountCode == null)
+                return false;
+
+            basket.DiscountCode = null;
+            await SaveOrUpdate(basket);
+            return true;
         }
 
         public async Task<bool> Delete()

@@ -22,7 +22,10 @@
                 }
                 return _basketItems;
             }
-            set { _basketItems = value; }
+            set 
+            {
+                _basketItems = value; 
+            }
         }
 
         public decimal TotalPrice
