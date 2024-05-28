@@ -15,7 +15,7 @@ namespace FreeCourse.Web.Services
 
         public async Task<DiscountViewModel> GetDiscount(string discountCode)
         {
-            var response = await _httpClient.GetAsync($"discounts/getbycode/{discountCode}");
+            var response = await _httpClient.GetAsync($"discounts/code/{discountCode}");
             if (!response.IsSuccessStatusCode)
                 return null;
 
