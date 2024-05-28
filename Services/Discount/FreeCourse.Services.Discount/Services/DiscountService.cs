@@ -28,9 +28,9 @@ namespace FreeCourse.Services.Discount.Services
             return Response<List<Models.Discount>>.Success(discount.ToList(), 200);
         }
 
-        public async Task<Response<Models.Discount>> GetByCodeAndUserIdAsync(string code, string userId)
+        public async Task<Response<Models.Discount>> GetByCodeAndUserIdAsync(string userId, string code)
         {
-            var discount = await _dbConnection.QueryAsync<Models.Discount>("Select * From discount where userid=@UserId and code=@Code");
+            var discount = await _dbConnection.QueryAsync<Models.Discount>("Select * From discount Where userid=@UserId And code=@Code", new { UserId = userId, Code = code });
             var hasDiscount = discount.FirstOrDefault();
             if (hasDiscount == null)
                 return Response<Models.Discount>.Fail("Discount not found", 404);
@@ -49,16 +49,16 @@ namespace FreeCourse.Services.Discount.Services
 
         public async Task<Response<NoContent>> SaveAsync(Models.Discount discount)
         {
-            var saveStatus = await _dbConnection.ExecuteAsync("Insert Into discount (userid,rate,code) Values (@UserId,@Rate,@Code)",discount);
+            var saveStatus = await _dbConnection.ExecuteAsync("Insert Into discount (userid,rate,code) Values (@UserId,@Rate,@Code)", discount);
             if (saveStatus > 0)
                 return Response<NoContent>.Success(204);
             else
-                return Response<NoContent>.Fail("an error occurred while adding",500);
+                return Response<NoContent>.Fail("an error occurred while adding", 500);
         }
 
         public async Task<Response<NoContent>> UpdateAsync(Models.Discount discount)
         {
-            var status = await _dbConnection.ExecuteAsync("Update discount Set userid=@UserId,rate=@Rate,code=@Code Where id=@Id", new { Id = discount.Id, UserId = discount.UserId, Code = discount.Code, Rate = discount.Rate});
+            var status = await _dbConnection.ExecuteAsync("Update discount Set userid=@UserId,rate=@Rate,code=@Code Where id=@Id", new { Id = discount.Id, UserId = discount.UserId, Code = discount.Code, Rate = discount.Rate });
             if (status > 0)
                 return Response<NoContent>.Success(204);
             else

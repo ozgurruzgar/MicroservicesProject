@@ -35,18 +35,30 @@ namespace FreeCourse.Web.Services
             await SaveOrUpdate(basket);
         }
 
-        public Task<bool> ApplyDiscount(string discountCode)
+        public async Task<bool> ApplyDiscount(string discountCode)
         {
-            throw new NotImplementedException();
+            await CancelApplyDiscount();
+
+            var basket = await Get();
+            if (basket == null)
+                return false;
+
+            var hasDiscount = await _discountService.GetDiscount(discountCode);
+            if (hasDiscount == null)
+                return false;
+
+            basket.ApplyDiscount(hasDiscount.Code, hasDiscount.Rate);
+            await SaveOrUpdate(basket);
+            return true;
         }
 
         public async Task<bool> CancelApplyDiscount()
         {
             var basket = await Get();
-            if (basket == null && basket.DiscountCode == null)
+            if (basket == null || basket.DiscountCode == null)
                 return false;
 
-            basket.DiscountCode = null;
+            basket.CancelDiscount();
             await SaveOrUpdate(basket);
             return true;
         }
