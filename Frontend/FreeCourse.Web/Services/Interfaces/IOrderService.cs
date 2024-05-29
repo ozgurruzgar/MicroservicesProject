@@ -7,7 +7,7 @@ namespace FreeCourse.Web.Services.Interfaces
         // Sync communication - Direct request to order microservice
         Task<OrderCreatedViewModel> CreateOrder(CheckoutInfo checkoutInfo);
         // Async communication - Order informations will send to rabbitMQ
-        Task SuspendOrder(CheckoutInfo checkoutInfo);
+        Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfo checkoutInfo);
         Task<List<OrderViewModel>> GetOrder();
     }
 }
