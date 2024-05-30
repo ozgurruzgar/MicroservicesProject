@@ -9,6 +9,6 @@
         //public AddressDto AddressDto { get; set; }
         public string BuyerId { get; set; }
 
-        public List<OrderItemViewModel> OrderItemDtos { get; set; }
+        public List<OrderItemViewModel> OrderItems { get; set; }
     }
 }
