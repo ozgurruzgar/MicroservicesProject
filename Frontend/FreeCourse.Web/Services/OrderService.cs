@@ -109,7 +109,8 @@ namespace FreeCourse.Web.Services
             var responsePayment = await _paymentService.RecievePayment(paymentInfo);
             if (!responsePayment)
                 return new OrderSuspendViewModel { Error = "Ödeme Alınamadı", IsSuccessful = false };
-            
+
+            await _basketService.Delete();
             return new OrderSuspendViewModel { IsSuccessful = true };
         }
     }
