@@ -17,6 +17,7 @@ builder.Services.AddMassTransit(x =>
 {
     // Add Masstransit 
     x.AddConsumer<CreateOrderMessageCommandConsumer>();
+    x.AddConsumer<PublishCourseNameChangedEventConsumer>();
 
     // Default Port : 5672
     x.UsingRabbitMq((context, cfg) =>
@@ -32,6 +33,11 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("create-order-service", e =>
         {
             e.ConfigureConsumer<CreateOrderMessageCommandConsumer>(context);
+        });
+
+        cfg.ReceiveEndpoint("course-name-changed-event-order-service-order", e =>
+        {
+            e.ConfigureConsumer<PublishCourseNameChangedEventConsumer>(context);
         });
     });
 });
