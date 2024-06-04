@@ -13,6 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<OrderDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), configure =>
+    {
+        configure.MigrationsAssembly("FreeCourse.Services.Order.Infrastructure");
+    });
+});
+
 builder.Services.AddMassTransit(x =>
 {
     // Add Masstransit 
@@ -22,7 +30,7 @@ builder.Services.AddMassTransit(x =>
     // Default Port : 5672
     x.UsingRabbitMq((context, cfg) =>
     {
-        //x.AddConsumer() methods cannot use here because Masstransit bring readonly state service collection in here. So If we add this method here. We will get "The service collection cannot be modified because it is read-only." error.
+        //x.AddConsumer() methods cannot use here because Masstransit brings readonly state service collection in here. So If we add this method here. We will get "The service collection cannot be modified because it is read-only." error.
 
         cfg.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
         {
@@ -61,10 +69,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
-//bu spesifik özel durumlar için kullanýlýyor bu tanýmlama
+//bu spesifik ï¿½zel durumlar iï¿½in kullanï¿½lï¿½yor bu tanï¿½mlama
 builder.Services.AddMediatR( cfg=>cfg.RegisterServicesFromAssemblyContaining(typeof(CreateOrderCommandHandler)));
 
-// farklý tanýmlama örnekleri
+// farklï¿½ tanï¿½mlama ï¿½rnekleri
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 //builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<Program>());
 
@@ -76,15 +84,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.RequireHttpsMetadata = false;
     });
 
-builder.Services.AddDbContext<OrderDbContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), configure =>
-    {
-        configure.MigrationsAssembly("FreeCourse.Services.Order.Infrastructure");
-    });
-});
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var orderDbContext = serviceProvider.GetRequiredService<OrderDbContext>();
+    orderDbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

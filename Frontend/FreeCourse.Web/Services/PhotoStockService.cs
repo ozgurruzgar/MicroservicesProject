@@ -24,7 +24,7 @@ namespace FreeCourse.Web.Services
             if (photo == null || photo.Length <= 0)
                 return null;
 
-            var randomFileName = $"{Guid.NewGuid().ToString()}.{Path.GetExtension(photo.FileName)}";
+            var randomFileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(photo.FileName)}";
 
             using var memoryStream = new MemoryStream();
             await photo.CopyToAsync(memoryStream);
